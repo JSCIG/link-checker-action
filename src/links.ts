@@ -4,8 +4,7 @@ import { testGitHubLink } from './github';
 
 export async function testLink(link: string): Promise<void> {
   if (link.includes('//github.com/')) {
-    await testGitHubLink(link);
-    return;
+    return testGitHubLink(link);
   }
   const response = await fetch(link, { method: 'HEAD', redirect: 'manual' });
   debug(`${link} - ${response.status}`);
