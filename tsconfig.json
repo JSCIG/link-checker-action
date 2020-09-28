@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "ES6",
+    "target": "ES2015",
+    "module": "CommonJS",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "outDir": "dist"
-  },
-  "include": ["src"]
+    "strict": true
+  }
 }

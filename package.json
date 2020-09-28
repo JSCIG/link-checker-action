@@ -1,17 +1,16 @@
 {
   "private": true,
-  "repository": "https://github.com/JSCIG/automatic-github-token",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && ncc build -m ./src/index.ts",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "start": "tsc --watch"
+    "build": "ncc build -m ./src/index.ts",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/glob": "^0.1.0",
+    "@octokit/rest": "^18.0.6",
+    "@octokit/types": "^5.5.0",
     "cheerio": "^1.0.0-rc.3",
-    "lodash": "^4.17.20",
     "markdown-it": "^11.0.1",
     "node-fetch": "^2.6.1",
     "parse-github-url": "^1.0.2"

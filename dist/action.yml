@@ -1,0 +1,34 @@
+name: Link Checker (JSCIG)
+author: JSCIG
+
+description: Link Checker on GitHub Action
+
+branding:
+  icon: package
+  color: gray-dark
+
+inputs:
+  token:
+    required: true
+    default: ${{ github.token }}
+    description: The token used for authentication. Usually, this should be your `secrets.GITHUB_TOKEN`
+
+  pattern:
+    description: Glob Pattern
+    required: true
+    default: |
+      **/*.md
+      **/*.markdown
+      **/*.html
+      **/*.htm
+
+  ignorable_links:
+    description: Ignorable links (keywords)
+    required: true
+    default: |
+      goo.gl
+      archive.org
+
+runs:
+  using: node12
+  main: index.js
