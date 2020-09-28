@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "repository": "https://github.com/JSCIG/automatic-github-token",
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf dist && ncc build -m ./src/index.ts",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "start": "tsc --watch"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/glob": "^0.1.0",
+    "cheerio": "^1.0.0-rc.3",
+    "lodash": "^4.17.20",
+    "markdown-it": "^11.0.1",
+    "node-fetch": "^2.6.1",
+    "parse-github-url": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.22",
+    "@types/eslint": "^7.2.3",
+    "@types/lodash": "^4.14.161",
+    "@types/markdown-it": "^10.0.2",
+    "@types/node": "^14.0.26",
+    "@types/node-fetch": "^2.5.7",
+    "@types/parse-github-url": "^1.0.0",
+    "@types/prettier": "^2.1.1",
+    "@types/rimraf": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "@vercel/ncc": "^0.24.1",
+    "eslint": "^7.5.0",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.3"
+  }
+}
