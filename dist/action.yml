@@ -24,8 +24,12 @@ inputs:
     description: Ignorable links (keywords)
     required: true
     default: |
-      goo.gl
+      1drv.ms
       archive.org
+      bit.ly
+      docs.google.com
+      goo.gl
+      j.mp
 
 runs:
   using: node12

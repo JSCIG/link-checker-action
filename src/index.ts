@@ -5,12 +5,9 @@ import { promises as fs } from 'fs';
 import MarkdownIt from 'markdown-it';
 import path from 'path';
 import { testLink } from './links';
-import { lineNo, warning } from './utils';
-import { URL } from 'url';
+import { lineNo, normalizeLink, warning } from './utils';
 
 const markdown = new MarkdownIt();
-
-const usedLinks = new Set<string>();
 
 async function main(): Promise<void> {
   const pattern = getInput('pattern', { required: true });
@@ -27,8 +24,6 @@ async function main(): Promise<void> {
           continue; // ignore not http url
         } else if (ignorableLinks.find((keyword) => link.includes(keyword))) {
           continue; // ignore by keywords
-        } else if (usedLinks.has(normalizeLink(link))) {
-          continue; // ignore used link
         }
         try {
           await testLink(link);
@@ -40,16 +35,9 @@ async function main(): Promise<void> {
             warning(`${link} -> ${err}`, relativedPath, number, line.indexOf(link) + 1);
           }
         }
-        usedLinks.add(normalizeLink(link));
       }
     });
   }
-}
-
-function normalizeLink(input: string) {
-  const link = new URL(input);
-  link.hash = '';
-  return link.toString();
 }
 
 function* getLinks(content: string, isMarkdown: boolean) {

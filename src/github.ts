@@ -1,6 +1,7 @@
 import { getInput } from '@actions/core';
 import { Octokit } from '@octokit/rest';
 import parseGithubURL from 'parse-github-url';
+import { head, normalizeLink } from './utils';
 
 const github = new Octokit({
   auth: getInput('token', { required: true }),
@@ -9,29 +10,21 @@ const github = new Octokit({
 const usedRepos = new Set<string>();
 
 export async function testGitHubLink(link: string): Promise<void> {
-  const result = parseGithubURL(link);
-  if (result == null || result.owner === null || result.name === null) {
+  const parsed = parseGithubURL(link);
+  if (parsed == null || parsed.owner === null || parsed.name === null) {
     return;
-  } else if (result.filepath && !['pull', 'issues'].includes(result.branch)) {
-    if (result.branch === 'blob') {
-      const index = result.filepath.indexOf('/');
-      result.branch = result.filepath.slice(0, index);
-      result.filepath = result.filepath.slice(index + 1);
-    }
-    await github.repos.getContent({
-      repo: result.name,
-      owner: result.owner,
-      ref: result.branch,
-      path: result.filepath,
-    });
-  } else if (usedRepos.has(`${result.owner}/${result.name}`)) {
+  } else if (['pull', 'issues', 'wiki', 'actions', 'projects', 'settings'].includes(parsed.branch)) {
+    return;
+  } else if (parsed.filepath) {
+    await head(normalizeLink(link));
+  } else if (usedRepos.has(`${parsed.owner}/${parsed.name}`)) {
     return;
   }
-  const { data } = await github.repos.get({ owner: result.owner, repo: result.name });
-  usedRepos.add(data.full_name);
-  if (data.owner.login !== result.owner) {
+  usedRepos.add(`${parsed.owner}/${parsed.name}`);
+  const { data } = await github.repos.get({ owner: parsed.owner, repo: parsed.name });
+  if (data.owner.login !== parsed.owner) {
     throw `Transferred to ${data.html_url}`;
-  } else if (data.name !== result.name) {
+  } else if (data.name !== parsed.name) {
     throw `Renamed to ${data.html_url}`;
   }
 }
